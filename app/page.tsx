@@ -129,14 +129,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col w-full relative overflow-hidden">
-      {/* Global Home Switcher */}
+      {/* Global Home Switcher (Moved to Bottom Center) */}
       {gameState.status !== "home" && (
-        <button
-          onClick={() => updateGameStatus("home")}
-          className="absolute top-4 left-4 z-40 bg-slate-800 text-white p-3 rounded-full hover:bg-slate-700 shadow border-2 border-slate-600 active:scale-95 transition-transform"
-        >
-          <HomeIcon className="w-5 h-5" />
-        </button>
+        <div className="fixed bottom-8 left-0 right-0 z-50 flex justify-center pointer-events-none">
+          <button
+            onClick={() => updateGameStatus("home")}
+            className="pointer-events-auto bg-slate-800 text-white p-4 rounded-full hover:bg-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.3)] border-4 border-slate-600 active:scale-95 transition-transform flex items-center justify-center gap-2 font-bold"
+          >
+            <HomeIcon className="w-6 h-6" />
+          </button>
+        </div>
       )}
 
       {/* Scoreboard Header */}
