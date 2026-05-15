@@ -27,6 +27,7 @@ export interface GameState {
     };
     currentQuestion: QuestionType | null;
     status: "lobby" | "playing" | "reveal";
+    resetVotes?: { ardo?: boolean, cintan?: boolean };
 }
 
 const DEFAULT_STATE: GameState = {
@@ -59,6 +60,7 @@ export function useGameState() {
                 setGameState({
                     status: data.status || "lobby",
                     currentQuestion: data.currentQuestion || null,
+                    resetVotes: data.resetVotes || { ardo: false, cintan: false },
                     players: {
                         ardo: { ...DEFAULT_STATE.players.ardo, ...data.players?.ardo },
                         cintan: { ...DEFAULT_STATE.players.cintan, ...data.players?.cintan }
@@ -97,6 +99,22 @@ export function useGameState() {
         });
     };
 
+    const voteResetScore = async (player: "ardo" | "cintan", cancel: boolean = false) => {
+        await update(ref(database, `game/state/resetVotes`), {
+            [player]: !cancel
+        });
+    };
+
+    useEffect(() => {
+        if (gameState.resetVotes?.ardo && gameState.resetVotes?.cintan) {
+            if (currentPlayer === "ardo") {
+                update(ref(database, "game/state/players/ardo"), { score: 0 });
+                update(ref(database, "game/state/players/cintan"), { score: 0 });
+                update(ref(database, "game/state/resetVotes"), { ardo: false, cintan: false });
+            }
+        }
+    }, [gameState.resetVotes?.ardo, gameState.resetVotes?.cintan, currentPlayer]);
+
     return {
         gameState,
         currentPlayer,
@@ -104,6 +122,7 @@ export function useGameState() {
         updateGameStatus,
         submitAnswer,
         updateProfile,
+        voteResetScore,
         loading,
     };
 }
