@@ -18,6 +18,9 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false);
   const calculatedRef = useRef(false);
 
+  const mePlayer = currentPlayer || "ardo";
+  const opponentPlayer = mePlayer === "ardo" ? "cintan" : "ardo";
+
   // Global Profile Editor State
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState("");
@@ -139,32 +142,34 @@ export default function Home() {
       {/* Scoreboard Header */}
       {gameState.status !== "lobby" && gameState.status !== "home" && (
         <div className="w-full max-w-lg mx-auto z-20 sticky top-0">
-          <header className="w-full bg-slate-900 border-b-8 border-slate-950 text-white flex justify-between items-center px-6 py-4 rounded-b-[2.5rem] shadow-2xl mb-3">
+          <header className="w-full bg-slate-900 border-b-8 border-slate-950 text-white flex justify-between items-center px-4 py-4 rounded-b-[2.5rem] shadow-2xl mb-3">
             <div className="flex flex-col items-center relative flex-1">
-              <div className="flex items-center gap-2 mb-1 justify-center">
-                <div className={`relative ${currentPlayer === 'ardo' ? 'cursor-pointer group hover:scale-105 transition-transform' : ''}`} onClick={() => currentPlayer === 'ardo' && handleOpenEdit()}>
-                  <div className={`w-12 h-12 rounded-xl overflow-hidden bg-slate-800 border-2 ${currentPlayer === 'ardo' ? 'group-hover:border-white transition-colors border-game-blue' : 'border-slate-700'} flex items-center justify-center text-xl shadow-inner bg-game-blue`}>
-                    {gameState.players?.ardo?.avatarUrl ? <img src={gameState.players.ardo.avatarUrl} className="w-full h-full object-cover" /> : <User className="w-7 h-7 text-white/80" />}
+              <div className="flex items-center gap-2 mb-1 justify-start w-full px-2">
+                <div className={`relative ${currentPlayer === mePlayer ? 'cursor-pointer group hover:scale-105 transition-transform' : ''}`} onClick={() => currentPlayer === mePlayer && handleOpenEdit()}>
+                  <div className={`w-12 h-12 rounded-xl overflow-hidden bg-slate-800 border-2 ${currentPlayer === mePlayer ? `group-hover:border-white transition-colors border-game-${mePlayer === 'ardo' ? 'blue' : 'pink'}` : 'border-slate-700'} flex items-center justify-center text-xl shadow-inner bg-game-${mePlayer === 'ardo' ? 'blue' : 'pink'}`}>
+                    {gameState.players?.[mePlayer]?.avatarUrl ? <img src={gameState.players[mePlayer].avatarUrl} className="w-full h-full object-cover" /> : <User className="w-7 h-7 text-white/80" />}
                   </div>
                 </div>
               </div>
-              <span className="text-[11px] font-bold text-slate-400 tracking-widest break-words whitespace-normal text-center min-w-[50px]">{gameState.players?.ardo?.displayName || "Ardo"}</span>
-              <div className="flex items-center gap-3 mt-1">
-                <span className="text-4xl font-black text-game-blue">{gameState.players?.ardo?.score || 0}</span>
+              <span className="text-[11px] font-bold text-slate-400 tracking-widest break-words whitespace-normal text-left px-3 min-w-[50px] w-full">{gameState.players?.[mePlayer]?.displayName || (mePlayer === "ardo" ? "Ardo" : "Cintan")}</span>
+              <div className="flex items-center gap-3 mt-1 w-full justify-start px-3">
+                <span className={`text-4xl font-black text-game-${mePlayer === 'ardo' ? 'blue' : 'pink'}`}>{gameState.players?.[mePlayer]?.score || 0}</span>
               </div>
             </div>
-            <div className="text-xl font-black text-slate-600 bg-slate-800 p-2 rounded-xl mx-2">VS</div>
+
+            <div className="text-xl font-black text-slate-600 bg-slate-800 p-2 rounded-xl mx-2 shrink-0">VS</div>
+
             <div className="flex flex-col items-center relative flex-1">
-              <div className="flex items-center gap-2 mb-1 justify-center flex-row-reverse">
-                <div className={`relative ${currentPlayer === 'cintan' ? 'cursor-pointer group hover:scale-105 transition-transform' : ''}`} onClick={() => currentPlayer === 'cintan' && handleOpenEdit()}>
-                  <div className={`w-12 h-12 rounded-xl overflow-hidden bg-slate-800 border-2 ${currentPlayer === 'cintan' ? 'group-hover:border-white transition-colors border-game-pink' : 'border-slate-700'} flex items-center justify-center text-xl shadow-inner bg-game-pink`}>
-                    {gameState.players?.cintan?.avatarUrl ? <img src={gameState.players.cintan.avatarUrl} className="w-full h-full object-cover" /> : <User className="w-7 h-7 text-white/80" />}
+              <div className="flex items-center gap-2 mb-1 justify-end w-full px-2">
+                <div className={`relative ${currentPlayer === opponentPlayer ? 'cursor-pointer group hover:scale-105 transition-transform' : ''}`} onClick={() => currentPlayer === opponentPlayer && handleOpenEdit()}>
+                  <div className={`w-12 h-12 rounded-xl overflow-hidden bg-slate-800 border-2 ${currentPlayer === opponentPlayer ? `group-hover:border-white transition-colors border-game-${opponentPlayer === 'ardo' ? 'blue' : 'pink'}` : 'border-slate-700'} flex items-center justify-center text-xl shadow-inner bg-game-${opponentPlayer === 'ardo' ? 'blue' : 'pink'}`}>
+                    {gameState.players?.[opponentPlayer]?.avatarUrl ? <img src={gameState.players[opponentPlayer].avatarUrl} className="w-full h-full object-cover" /> : <User className="w-7 h-7 text-white/80" />}
                   </div>
                 </div>
               </div>
-              <span className="text-[11px] font-bold text-slate-400 tracking-widest break-words whitespace-normal text-center min-w-[50px]">{gameState.players?.cintan?.displayName || "Cintan"}</span>
-              <div className="flex items-center gap-3 mt-1">
-                <span className="text-4xl font-black text-game-pink">{gameState.players?.cintan?.score || 0}</span>
+              <span className="text-[11px] font-bold text-slate-400 tracking-widest break-words whitespace-normal text-right px-3 min-w-[50px] w-full">{gameState.players?.[opponentPlayer]?.displayName || (opponentPlayer === "ardo" ? "Ardo" : "Cintan")}</span>
+              <div className="flex items-center gap-3 mt-1 w-full justify-end px-3">
+                <span className={`text-4xl font-black text-game-${opponentPlayer === 'ardo' ? 'blue' : 'pink'}`}>{gameState.players?.[opponentPlayer]?.score || 0}</span>
               </div>
             </div>
           </header>

@@ -51,8 +51,17 @@ export default function Lobby({ gameState, currentPlayer, onStartGame }: Props) 
                 </h2>
 
                 <div className="flex justify-evenly gap-4 mb-8">
-                    {renderAvatar("ardo", "bg-game-blue", <User className="w-10 h-10 text-white/80" />)}
-                    {renderAvatar("cintan", "bg-game-pink", <User className="w-10 h-10 text-white/80" />)}
+                    {currentPlayer === "cintan" ? (
+                        <>
+                            {renderAvatar("cintan", "bg-game-pink", <User className="w-10 h-10 text-white/80" />)}
+                            {renderAvatar("ardo", "bg-game-blue", <User className="w-10 h-10 text-white/80" />)}
+                        </>
+                    ) : (
+                        <>
+                            {renderAvatar("ardo", "bg-game-blue", <User className="w-10 h-10 text-white/80" />)}
+                            {renderAvatar("cintan", "bg-game-pink", <User className="w-10 h-10 text-white/80" />)}
+                        </>
+                    )}
                 </div>
 
                 {!bothOnline ? (

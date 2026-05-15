@@ -50,25 +50,51 @@ export default function Reveal({ gameState, currentPlayer, onNextQuestion }: Pro
                 </div>
 
                 <div className="flex justify-between items-center mb-8 px-4 w-full">
-                    <div className="flex flex-col items-center flex-1 text-center truncate">
-                        <div className="w-16 h-16 rounded-3xl mb-2 overflow-hidden bg-slate-200 border-2 border-slate-800 text-3xl flex items-center justify-center bg-game-blue shadow-inner">
-                            {gameState.players.ardo.avatarUrl ? <img src={gameState.players.ardo.avatarUrl} className="w-full h-full object-cover" /> : <User className="w-8 h-8 text-white/80" />}
-                        </div>
-                        <span className="text-sm font-bold text-slate-700 max-w-[100px] truncate mb-2 leading-tight min-h-[35px] flex items-center justify-center">{gameState.players.ardo.displayName || "Ardo"}</span>
-                        <span className={`font-bold inline-block px-3 py-1 rounded-full text-white text-xs ${ardoAnswer === isFact ? 'bg-game-green' : 'bg-game-red'}`}>
-                            {ardoAnswer ? "FAKTA" : "KARANGAN"}
-                        </span>
-                    </div>
-                    <div className="text-3xl font-black text-slate-300 mx-2">VS</div>
-                    <div className="flex flex-col items-center flex-1 text-center truncate">
-                        <div className="w-16 h-16 rounded-3xl mb-2 overflow-hidden bg-slate-200 border-2 border-slate-800 text-3xl flex items-center justify-center bg-game-pink shadow-inner">
-                            {gameState.players.cintan.avatarUrl ? <img src={gameState.players.cintan.avatarUrl} className="w-full h-full object-cover" /> : <User className="w-8 h-8 text-white/80" />}
-                        </div>
-                        <span className="text-sm font-bold text-slate-700 max-w-[100px] truncate mb-2 leading-tight min-h-[35px] flex items-center justify-center">{gameState.players.cintan.displayName || "Cintan"}</span>
-                        <span className={`font-bold inline-block px-3 py-1 rounded-full text-white text-xs ${cintanAnswer === isFact ? 'bg-game-green' : 'bg-game-red'}`}>
-                            {cintanAnswer ? "FAKTA" : "KARANGAN"}
-                        </span>
-                    </div>
+                    {currentPlayer === "cintan" ? (
+                        <>
+                            <div className="flex flex-col items-center flex-1 text-center truncate">
+                                <div className="w-16 h-16 rounded-3xl mb-2 overflow-hidden bg-slate-200 border-2 border-slate-800 text-3xl flex items-center justify-center bg-game-pink shadow-inner">
+                                    {gameState.players.cintan.avatarUrl ? <img src={gameState.players.cintan.avatarUrl} className="w-full h-full object-cover" /> : <User className="w-8 h-8 text-white/80" />}
+                                </div>
+                                <span className="text-sm font-bold text-slate-700 max-w-[100px] truncate mb-2 leading-tight min-h-[35px] flex items-center justify-center">{gameState.players.cintan.displayName || "Cintan"}</span>
+                                <span className={`font-bold inline-block px-3 py-1 rounded-full text-white text-xs ${cintanAnswer === isFact ? 'bg-game-green' : 'bg-game-red'}`}>
+                                    {cintanAnswer ? "FAKTA" : "KARANGAN"}
+                                </span>
+                            </div>
+                            <div className="text-3xl font-black text-slate-300 mx-2">VS</div>
+                            <div className="flex flex-col items-center flex-1 text-center truncate">
+                                <div className="w-16 h-16 rounded-3xl mb-2 overflow-hidden bg-slate-200 border-2 border-slate-800 text-3xl flex items-center justify-center bg-game-blue shadow-inner">
+                                    {gameState.players.ardo.avatarUrl ? <img src={gameState.players.ardo.avatarUrl} className="w-full h-full object-cover" /> : <User className="w-8 h-8 text-white/80" />}
+                                </div>
+                                <span className="text-sm font-bold text-slate-700 max-w-[100px] truncate mb-2 leading-tight min-h-[35px] flex items-center justify-center">{gameState.players.ardo.displayName || "Ardo"}</span>
+                                <span className={`font-bold inline-block px-3 py-1 rounded-full text-white text-xs ${ardoAnswer === isFact ? 'bg-game-green' : 'bg-game-red'}`}>
+                                    {ardoAnswer ? "FAKTA" : "KARANGAN"}
+                                </span>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="flex flex-col items-center flex-1 text-center truncate">
+                                <div className="w-16 h-16 rounded-3xl mb-2 overflow-hidden bg-slate-200 border-2 border-slate-800 text-3xl flex items-center justify-center bg-game-blue shadow-inner">
+                                    {gameState.players.ardo.avatarUrl ? <img src={gameState.players.ardo.avatarUrl} className="w-full h-full object-cover" /> : <User className="w-8 h-8 text-white/80" />}
+                                </div>
+                                <span className="text-sm font-bold text-slate-700 max-w-[100px] truncate mb-2 leading-tight min-h-[35px] flex items-center justify-center">{gameState.players.ardo.displayName || "Ardo"}</span>
+                                <span className={`font-bold inline-block px-3 py-1 rounded-full text-white text-xs ${ardoAnswer === isFact ? 'bg-game-green' : 'bg-game-red'}`}>
+                                    {ardoAnswer ? "FAKTA" : "KARANGAN"}
+                                </span>
+                            </div>
+                            <div className="text-3xl font-black text-slate-300 mx-2">VS</div>
+                            <div className="flex flex-col items-center flex-1 text-center truncate">
+                                <div className="w-16 h-16 rounded-3xl mb-2 overflow-hidden bg-slate-200 border-2 border-slate-800 text-3xl flex items-center justify-center bg-game-pink shadow-inner">
+                                    {gameState.players.cintan.avatarUrl ? <img src={gameState.players.cintan.avatarUrl} className="w-full h-full object-cover" /> : <User className="w-8 h-8 text-white/80" />}
+                                </div>
+                                <span className="text-sm font-bold text-slate-700 max-w-[100px] truncate mb-2 leading-tight min-h-[35px] flex items-center justify-center">{gameState.players.cintan.displayName || "Cintan"}</span>
+                                <span className={`font-bold inline-block px-3 py-1 rounded-full text-white text-xs ${cintanAnswer === isFact ? 'bg-game-green' : 'bg-game-red'}`}>
+                                    {cintanAnswer ? "FAKTA" : "KARANGAN"}
+                                </span>
+                            </div>
+                        </>
+                    )}
                 </div>
 
                 <button
