@@ -26,12 +26,12 @@ export interface GameState {
         cintan: PlayerState;
     };
     currentQuestion: QuestionType | null;
-    status: "lobby" | "playing" | "reveal";
+    status: "home" | "lobby" | "playing" | "reveal";
     resetVotes?: { ardo?: boolean, cintan?: boolean };
 }
 
 const DEFAULT_STATE: GameState = {
-    status: "lobby",
+    status: "home",
     currentQuestion: null,
     players: {
         ardo: { isOnline: false, score: 0, answer: null, displayName: "Ardo 👦", avatarUrl: "" },
@@ -58,7 +58,7 @@ export function useGameState() {
             const data = snapshot.val();
             if (data) {
                 setGameState({
-                    status: data.status || "lobby",
+                    status: data.status || "home",
                     currentQuestion: data.currentQuestion || null,
                     resetVotes: data.resetVotes || { ardo: false, cintan: false },
                     players: {

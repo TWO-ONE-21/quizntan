@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useGameState } from "@/hooks/useGameState";
 import SplashScreen from "@/components/SplashScreen";
+import HomeMenu from "@/components/HomeMenu";
 import Lobby from "@/components/Lobby";
 import Gameplay from "@/components/Gameplay";
 import Reveal from "@/components/Reveal";
@@ -124,8 +125,18 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col w-full relative overflow-hidden">
+      {/* Global Home Switcher */}
+      {gameState.status !== "home" && (
+        <button
+          onClick={() => updateGameStatus("home")}
+          className="absolute top-4 left-4 z-40 bg-slate-800 text-white p-2 rounded-full hover:bg-slate-700 shadow border-2 border-slate-600 active:scale-95 transition-transform text-lg"
+        >
+          🏠
+        </button>
+      )}
+
       {/* Scoreboard Header */}
-      {gameState.status !== "lobby" && (
+      {gameState.status !== "lobby" && gameState.status !== "home" && (
         <div className="w-full max-w-lg mx-auto z-20 sticky top-0">
           <header className="w-full bg-slate-900 border-b-8 border-slate-950 text-white flex justify-between items-center px-6 py-4 rounded-b-[2.5rem] shadow-2xl mb-3">
             <div className="flex flex-col items-center relative flex-1">
@@ -174,6 +185,19 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex-1 w-full max-w-md mx-auto h-full flex flex-col justify-center">
+        {gameState.status === "home" && (
+          <HomeMenu
+            onContinue={() => updateGameStatus("lobby")}
+            onRestart={async () => {
+              await update(ref(database, "game/state/players/ardo"), { score: 0, answer: null });
+              await update(ref(database, "game/state/players/cintan"), { score: 0, answer: null });
+              await update(ref(database, "game/state/resetVotes"), { ardo: false, cintan: false });
+              await update(ref(database, "game/state"), { currentQuestion: null });
+              await updateGameStatus("lobby");
+            }}
+          />
+        )}
+
         {gameState.status === "lobby" && (
           <Lobby
             gameState={gameState}
