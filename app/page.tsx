@@ -129,17 +129,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col w-full relative overflow-hidden">
-      {/* Global Home Switcher (Moved to Bottom Center) */}
-      {gameState.status !== "home" && (
-        <div className="fixed bottom-8 left-0 right-0 z-50 flex justify-center pointer-events-none">
-          <button
-            onClick={() => updateGameStatus("home")}
-            className="pointer-events-auto bg-slate-800 text-white p-4 rounded-full hover:bg-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.3)] border-4 border-slate-600 active:scale-95 transition-transform flex items-center justify-center gap-2 font-bold"
-          >
-            <HomeIcon className="w-6 h-6" />
-          </button>
-        </div>
-      )}
+      {/* Global Wrapper for Main Content */}
 
       {/* Scoreboard Header */}
       {gameState.status !== "lobby" && gameState.status !== "home" && (
@@ -177,15 +167,12 @@ export default function Home() {
           </header>
           {currentPlayer && (
             <div className="flex justify-center text-center w-full relative z-10 -mt-2 drop-shadow-md">
-              {!gameState.resetVotes?.[currentPlayer] && !gameState.resetVotes?.[currentPlayer === "ardo" ? "cintan" : "ardo"] && (
-                <button onClick={() => voteResetScore(currentPlayer, false)} className="text-[10px] bg-slate-100 text-slate-500 font-bold px-4 py-1.5 rounded-full hover:bg-slate-200 shadow border border-slate-300 transition-colors">🔄 Reset Skor Pertandingan</button>
-              )}
-              {gameState.resetVotes?.[currentPlayer] && !gameState.resetVotes?.[currentPlayer === "ardo" ? "cintan" : "ardo"] && (
-                <button onClick={() => voteResetScore(currentPlayer, true)} className="text-[10px] animate-pulse bg-amber-100 border border-amber-300 text-amber-700 font-bold px-4 py-1.5 rounded-full hover:bg-amber-200 shadow">Menunggu persetujuan partner... (Batal)</button>
-              )}
-              {!gameState.resetVotes?.[currentPlayer] && gameState.resetVotes?.[currentPlayer === "ardo" ? "cintan" : "ardo"] && (
-                <button onClick={() => voteResetScore(currentPlayer, false)} className="text-[10px] animate-pulse bg-game-red border border-red-500 text-white font-bold px-4 py-1.5 rounded-full hover:bg-red-600 shadow">⚠️ Partner ingin mereset skor! Klik untuk setuju.</button>
-              )}
+              <button
+                onClick={() => updateGameStatus("home")}
+                className="flex items-center gap-2 text-xs bg-slate-100 text-slate-500 font-bold px-4 py-1.5 rounded-full hover:bg-slate-200 shadow border border-slate-300 transition-colors uppercase tracking-widest"
+              >
+                <HomeIcon className="w-3 h-3" /> Menu Utama
+              </button>
             </div>
           )}
         </div>
