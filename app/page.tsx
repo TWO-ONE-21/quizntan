@@ -164,7 +164,6 @@ export default function Home() {
             gameState={gameState}
             currentPlayer={currentPlayer}
             onStartGame={handlenewRound}
-            onUpdateProfile={updateProfile}
           />
         )}
 
