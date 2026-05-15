@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { User, Loader2, Rocket } from "lucide-react";
 import { GameState, PlayerType } from "@/hooks/useGameState";
 
 interface Props {
@@ -16,7 +17,7 @@ export default function Lobby({ gameState, currentPlayer, onStartGame }: Props) 
 
     const partnerName = currentPlayer === "ardo" ? (gameState.players?.cintan?.displayName || "Cintan") : (gameState.players?.ardo?.displayName || "Ardo");
 
-    const renderAvatar = (player: "ardo" | "cintan", bgClass: string, defaultEmoji: string) => {
+    const renderAvatar = (player: "ardo" | "cintan", bgClass: string, defaultEmoji: React.ReactNode) => {
         const p = gameState.players?.[player];
         const isOnline = p?.isOnline;
         return (
@@ -50,17 +51,17 @@ export default function Lobby({ gameState, currentPlayer, onStartGame }: Props) 
                 </h2>
 
                 <div className="flex justify-evenly gap-4 mb-8">
-                    {renderAvatar("ardo", "bg-game-blue", "👦")}
-                    {renderAvatar("cintan", "bg-game-pink", "👧")}
+                    {renderAvatar("ardo", "bg-game-blue", <User className="w-10 h-10 text-white/80" />)}
+                    {renderAvatar("cintan", "bg-game-pink", <User className="w-10 h-10 text-white/80" />)}
                 </div>
 
                 {!bothOnline ? (
                     <motion.p
                         animate={{ opacity: [0.5, 1, 0.5] }}
                         transition={{ repeat: Infinity, duration: 2 }}
-                        className="text-lg font-bold text-slate-500 mb-4 px-2"
+                        className="text-lg font-bold text-slate-500 mb-4 px-2 flex items-center justify-center gap-2"
                     >
-                        Menunggu {partnerName} login... 💤
+                        Menunggu {partnerName} login... <Loader2 className="w-5 h-5 animate-spin" />
                     </motion.p>
                 ) : (
                     <motion.div
@@ -70,9 +71,9 @@ export default function Lobby({ gameState, currentPlayer, onStartGame }: Props) 
                     >
                         <button
                             onClick={onStartGame}
-                            className="w-full py-4 text-2xl font-black text-white bg-game-green border-b-8 border-game-green-dark rounded-2xl hover:-translate-y-1 hover:border-b-[10px] active:border-b-0 active:translate-y-2 transition-all uppercase tracking-wider shadow-lg"
+                            className="w-full py-4 text-2xl font-black text-white bg-game-green border-b-8 border-game-green-dark rounded-2xl hover:-translate-y-1 hover:border-b-[10px] active:border-b-0 active:translate-y-2 transition-all uppercase tracking-wider shadow-lg flex items-center justify-center gap-3"
                         >
-                            Mulai Game! 🚀
+                            Mulai Game! <Rocket className="w-6 h-6" />
                         </button>
                     </motion.div>
                 )}

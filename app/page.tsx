@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { Home as HomeIcon, Pencil, RefreshCcw, AlertTriangle, Bot, User } from "lucide-react";
 import { useGameState } from "@/hooks/useGameState";
 import SplashScreen from "@/components/SplashScreen";
 import HomeMenu from "@/components/HomeMenu";
@@ -129,9 +130,9 @@ export default function Home() {
       {gameState.status !== "home" && (
         <button
           onClick={() => updateGameStatus("home")}
-          className="absolute top-4 left-4 z-40 bg-slate-800 text-white p-2 rounded-full hover:bg-slate-700 shadow border-2 border-slate-600 active:scale-95 transition-transform text-lg"
+          className="absolute top-4 left-4 z-40 bg-slate-800 text-white p-3 rounded-full hover:bg-slate-700 shadow border-2 border-slate-600 active:scale-95 transition-transform"
         >
-          🏠
+          <HomeIcon className="w-5 h-5" />
         </button>
       )}
 
@@ -143,7 +144,7 @@ export default function Home() {
               <div className="flex items-center gap-2 mb-1 justify-center">
                 <div className={`relative ${currentPlayer === 'ardo' ? 'cursor-pointer group hover:scale-105 transition-transform' : ''}`} onClick={() => currentPlayer === 'ardo' && handleOpenEdit()}>
                   <div className={`w-12 h-12 rounded-xl overflow-hidden bg-slate-800 border-2 ${currentPlayer === 'ardo' ? 'group-hover:border-white transition-colors border-game-blue' : 'border-slate-700'} flex items-center justify-center text-xl shadow-inner bg-game-blue`}>
-                    {gameState.players?.ardo?.avatarUrl ? <img src={gameState.players.ardo.avatarUrl} className="w-full h-full object-cover" /> : "👦"}
+                    {gameState.players?.ardo?.avatarUrl ? <img src={gameState.players.ardo.avatarUrl} className="w-full h-full object-cover" /> : <User className="w-7 h-7 text-white/80" />}
                   </div>
                 </div>
               </div>
@@ -157,7 +158,7 @@ export default function Home() {
               <div className="flex items-center gap-2 mb-1 justify-center flex-row-reverse">
                 <div className={`relative ${currentPlayer === 'cintan' ? 'cursor-pointer group hover:scale-105 transition-transform' : ''}`} onClick={() => currentPlayer === 'cintan' && handleOpenEdit()}>
                   <div className={`w-12 h-12 rounded-xl overflow-hidden bg-slate-800 border-2 ${currentPlayer === 'cintan' ? 'group-hover:border-white transition-colors border-game-pink' : 'border-slate-700'} flex items-center justify-center text-xl shadow-inner bg-game-pink`}>
-                    {gameState.players?.cintan?.avatarUrl ? <img src={gameState.players.cintan.avatarUrl} className="w-full h-full object-cover" /> : "👧"}
+                    {gameState.players?.cintan?.avatarUrl ? <img src={gameState.players.cintan.avatarUrl} className="w-full h-full object-cover" /> : <User className="w-7 h-7 text-white/80" />}
                   </div>
                 </div>
               </div>
@@ -208,10 +209,10 @@ export default function Home() {
 
         {gameState.status === "playing" && (
           isGenerating ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-xl font-bold text-slate-700 m-4">
-              <div className="bg-white/80 backdrop-blur-sm p-6 rounded-3xl border-4 border-slate-800 shadow-[8px_8px_0_0_rgba(30,41,59,1)] text-center animate-pulse">
-                <div className="text-4xl mb-4">🤖</div>
-                Minta soal ke Gemini...
+            <div className="flex-1 flex flex-col items-center justify-center text-gray-400 font-bold m-4">
+              <div className="bg-white/80 backdrop-blur-sm px-8 py-10 rounded-3xl border-4 border-slate-800 shadow-[8px_8px_0_0_rgba(30,41,59,1)] text-center animate-pulse flex flex-col items-center">
+                <Bot className="w-16 h-16 text-slate-800 mb-4" />
+                <span className="text-xl text-slate-700">Minta soal ke AI...</span>
               </div>
             </div>
           ) : (
@@ -236,7 +237,10 @@ export default function Home() {
       {isEditing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="bg-white border-4 border-slate-800 p-6 rounded-3xl max-w-sm w-full shadow-2xl">
-            <h3 className="text-xl font-black mb-4">Edit Profil {currentPlayer === 'ardo' ? '👦' : '👧'}</h3>
+            <div className="flex items-center gap-3 mb-4">
+              <Pencil className="w-6 h-6 text-slate-800" />
+              <h3 className="text-xl font-black">Edit Profil</h3>
+            </div>
             <div className="space-y-4 text-left font-bold text-sm text-slate-700">
               <div>
                 <label className="block mb-1">Nama / Emoji</label>

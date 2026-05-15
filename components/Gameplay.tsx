@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Sparkles, Hourglass } from "lucide-react";
 import { GameState, PlayerType } from "@/hooks/useGameState";
 
 interface Props {
@@ -23,8 +24,8 @@ export default function Gameplay({ gameState, currentPlayer, onSubmitAnswer }: P
                     transition={{ type: "spring", bounce: 0.6 }}
                     className="bg-orange-50 border-4 border-slate-800 rounded-3xl p-8 text-center shadow-[10px_10px_0_0_rgba(30,41,59,1)] transform -rotate-1 mb-10"
                 >
-                    <div className="text-sm font-bold text-slate-500 mb-4 uppercase tracking-widest bg-slate-200 inline-block px-3 py-1 rounded-full">
-                        Fakta atau Karangan?
+                    <div className="text-sm font-bold text-slate-500 mb-4 uppercase tracking-widest bg-slate-200 inline-flex items-center gap-2 px-4 py-1.5 rounded-full">
+                        <Sparkles className="w-4 h-4 text-amber-500" /> Fakta atau Karangan? <Sparkles className="w-4 h-4 text-amber-500" />
                     </div>
                     <h2 className="text-3xl font-black text-slate-800 leading-snug">
                         {question?.pernyataan || "Memuat..."}
@@ -60,9 +61,9 @@ export default function Gameplay({ gameState, currentPlayer, onSubmitAnswer }: P
                         <motion.div
                             animate={{ opacity: [0.5, 1, 0.5] }}
                             transition={{ repeat: Infinity, duration: 1.5 }}
-                            className="text-xl font-bold text-slate-700 font-sans"
+                            className="text-xl font-bold text-slate-700 font-sans flex items-center justify-center gap-3"
                         >
-                            Menunggu ayang jawab... ⏳
+                            Menunggu ayang jawab... <Hourglass className="w-6 h-6 animate-pulse" />
                         </motion.div>
                     </motion.div>
                 )}

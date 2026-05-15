@@ -34,8 +34,8 @@ const DEFAULT_STATE: GameState = {
     status: "home",
     currentQuestion: null,
     players: {
-        ardo: { isOnline: false, score: 0, answer: null, displayName: "Ardo 👦", avatarUrl: "" },
-        cintan: { isOnline: false, score: 0, answer: null, displayName: "Cintan ❤️💕💖💗", avatarUrl: "" },
+        ardo: { isOnline: false, score: 0, answer: null, displayName: "Ardo", avatarUrl: "" },
+        cintan: { isOnline: false, score: 0, answer: null, displayName: "Cintan", avatarUrl: "" },
     },
 };
 

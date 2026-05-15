@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Sparkles, User } from "lucide-react";
 
 interface Props {
     onSelect: (player: "ardo" | "cintan") => void;
@@ -26,16 +27,18 @@ export default function SplashScreen({ onSelect }: Props) {
                 <div className="space-y-6">
                     <button
                         onClick={() => onSelect("ardo")}
-                        className="w-full py-4 text-2xl font-bold text-white bg-game-blue border-b-8 border-game-blue-dark rounded-2xl hover:-translate-y-1 hover:border-b-[10px] active:border-b-0 active:translate-y-2 transition-all flex items-center justify-center gap-3"
+                        className="group relative flex-1 bg-game-blue border-b-8 border-game-blue-dark rounded-2xl p-6 hover:-translate-y-2 hover:border-b-[12px] active:border-b-0 active:translate-y-2 transition-all shadow-[6px_6px_0_0_rgba(30,41,59,1)] hover:shadow-[10px_10px_0_0_rgba(30,41,59,1)] flex flex-col items-center justify-center gap-3"
                     >
-                        <span className="text-4xl">👦</span> Saya Ardo
+                        <User className="w-12 h-12 text-white group-hover:scale-110 transition-transform" />
+                        <span className="block text-white font-black text-2xl uppercase tracking-widest">Ardo</span>
                     </button>
 
                     <button
                         onClick={() => onSelect("cintan")}
-                        className="w-full py-4 text-2xl font-bold text-white bg-game-pink border-b-8 border-game-pink-dark rounded-2xl hover:-translate-y-1 hover:border-b-[10px] active:border-b-0 active:translate-y-2 transition-all flex items-center justify-center gap-3"
+                        className="group relative flex-1 bg-game-pink border-b-8 border-game-pink-dark rounded-2xl p-6 hover:-translate-y-2 hover:border-b-[12px] active:border-b-0 active:translate-y-2 transition-all shadow-[6px_6px_0_0_rgba(30,41,59,1)] hover:shadow-[10px_10px_0_0_rgba(30,41,59,1)] flex flex-col items-center justify-center gap-3"
                     >
-                        <span className="text-4xl">👧</span> Saya Cintan
+                        <User className="w-12 h-12 text-white group-hover:scale-110 transition-transform" />
+                        <span className="block text-white font-black text-2xl uppercase tracking-widest">Cintan</span>
                     </button>
                 </div>
             </motion.div>
