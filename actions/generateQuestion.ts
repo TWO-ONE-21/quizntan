@@ -1,5 +1,7 @@
 "use server";
 
+import { QuestionType } from "@/hooks/useGameState";
+
 export interface QuestionCategory {
     main: string;
     sub: string;
