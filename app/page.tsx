@@ -62,7 +62,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (loading || gameState.status === "loading") {
+    if (gameState.status === "playing") {
       calculatedRef.current = false; // Reset for this round
       const p1Answer = gameState.players?.ardo?.answer;
       const p2Answer = gameState.players?.cintan?.answer;
