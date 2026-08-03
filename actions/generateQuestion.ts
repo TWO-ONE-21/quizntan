@@ -92,6 +92,7 @@ PENTING: Hanya output JSON array yang valid, tanpa teks awalan/akhiran.`;
             const response = await fetch(config.url, {
                 method: "POST",
                 headers: config.headers,
+                cache: "no-store", // DISABLE NEXT.JS CACHING TO PREVENT STATIC LOOPING
                 body: JSON.stringify({
                     model: config.model,
                     messages: [
