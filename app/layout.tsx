@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Fredoka } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 
-const fredoka = Fredoka({
-  variable: "--font-fredoka",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
-  title: "Game Kuis Ardo & Cintan",
-  description: "Real-time multiplayer quiz game",
+  title: "Quiz Ayang 💜",
+  description: "Game kuis seru buat berdua",
 };
 
 export default function RootLayout({
@@ -18,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${fredoka.variable} h-full antialiased`}>
+    <html lang="id" className={`${outfit.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

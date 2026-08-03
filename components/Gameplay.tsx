@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, Hourglass } from "lucide-react";
+import { Hourglass, Brain, CheckCircle2, XCircle } from "lucide-react";
 import { GameState, PlayerType } from "@/hooks/useGameState";
 
 interface Props {
@@ -16,54 +16,120 @@ export default function Gameplay({ gameState, currentPlayer, onSubmitAnswer }: P
 
     return (
         <div className="flex flex-col items-center justify-center flex-1 p-4 w-full">
-            <div className="max-w-md w-full">
+            <div className="max-w-md w-full space-y-5">
                 {/* Question Card */}
                 <motion.div
-                    initial={{ scale: 0, rotate: -10 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", bounce: 0.6 }}
-                    className="bg-orange-50 border-4 border-slate-800 rounded-3xl p-8 text-center shadow-[10px_10px_0_0_rgba(30,41,59,1)] transform -rotate-1 mb-10"
+                    initial={{ scale: 0.85, opacity: 0, y: -20 }}
+                    animate={{ scale: 1, opacity: 1, y: 0 }}
+                    transition={{ type: "spring", bounce: 0.4, duration: 0.7 }}
+                    className="glass-strong rounded-3xl p-7 text-center relative overflow-hidden"
+                    style={{
+                        boxShadow: "0 24px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08)",
+                    }}
                 >
-                    <div className="text-sm font-bold text-slate-500 mb-4 uppercase tracking-widest bg-slate-200 inline-flex items-center gap-2 px-4 py-1.5 rounded-full">
-                        <Sparkles className="w-4 h-4 text-amber-500" /> Fakta atau Karangan? <Sparkles className="w-4 h-4 text-amber-500" />
+                    {/* Subtle glow accent */}
+                    <div
+                        className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 rounded-b-full"
+                        style={{ background: "linear-gradient(90deg, transparent, rgba(168,85,247,0.6), transparent)" }}
+                    />
+
+                    {/* Badge */}
+                    <div className="flex items-center justify-center gap-2 mb-5 flex-wrap">
+                        <div
+                            className="flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase"
+                            style={{
+                                background: "rgba(245,158,11,0.15)",
+                                border: "1px solid rgba(245,158,11,0.25)",
+                                color: "#fbbf24",
+                            }}
+                        >
+                            <Brain className="w-3.5 h-3.5" />
+                            Fakta atau Karangan?
+                        </div>
+                        {question?.kategori && (
+                            <div
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold"
+                                style={{
+                                    background: "rgba(99,102,241,0.15)",
+                                    border: "1px solid rgba(99,102,241,0.25)",
+                                    color: "#a5b4fc",
+                                }}
+                            >
+                                {question.kategori.split(" — ")[1] || question.kategori}
+                            </div>
+                        )}
                     </div>
-                    <h2 className="text-3xl font-black text-slate-800 leading-snug">
+
+                    <h2 className="text-2xl font-bold text-white leading-snug">
                         {question?.pernyataan || "Memuat..."}
                     </h2>
                 </motion.div>
 
                 {/* Buttons */}
                 {currentAnswer === null ? (
-                    <div className="grid grid-cols-2 gap-4">
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => onSubmitAnswer(true)}
-                            className="py-8 px-4 text-2xl font-black text-white bg-game-green border-b-8 border-game-green-dark rounded-2xl hover:border-b-[10px] hover:-translate-y-1 active:border-b-0 active:translate-y-2 transition-all shadow-lg"
-                        >
-                            FAKTA
-                        </motion.button>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => onSubmitAnswer(false)}
-                            className="py-8 px-4 text-2xl font-black text-white bg-game-red border-b-8 border-game-red-dark rounded-2xl hover:border-b-[10px] hover:-translate-y-1 active:border-b-0 active:translate-y-2 transition-all shadow-lg"
-                        >
-                            KARANGAN
-                        </motion.button>
-                    </div>
-                ) : (
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white/80 backdrop-blur-sm border-4 border-slate-800 rounded-2xl p-6 text-center shadow-[8px_8px_0_0_rgba(30,41,59,1)]"
+                        transition={{ delay: 0.2, duration: 0.4 }}
+                        className="grid grid-cols-2 gap-3"
                     >
+                        {/* FAKTA */}
+                        <motion.button
+                            whileHover={{ scale: 1.04, y: -3 }}
+                            whileTap={{ scale: 0.96 }}
+                            onClick={() => onSubmitAnswer(true)}
+                            className="py-7 px-4 rounded-2xl font-extrabold text-lg text-white relative overflow-hidden group flex flex-col items-center gap-2"
+                            style={{
+                                background: "linear-gradient(135deg, #059669 0%, #10b981 100%)",
+                                boxShadow: "0 8px 32px rgba(16,185,129,0.35), 0 0 0 1px rgba(16,185,129,0.2)",
+                            }}
+                        >
+                            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-200" />
+                            <CheckCircle2 className="w-9 h-9 relative z-10 stroke-[1.5]" />
+                            <span className="tracking-widest relative z-10">FAKTA</span>
+                        </motion.button>
+
+                        {/* KARANGAN */}
+                        <motion.button
+                            whileHover={{ scale: 1.04, y: -3 }}
+                            whileTap={{ scale: 0.96 }}
+                            onClick={() => onSubmitAnswer(false)}
+                            className="py-7 px-4 rounded-2xl font-extrabold text-lg text-white relative overflow-hidden group flex flex-col items-center gap-2"
+                            style={{
+                                background: "linear-gradient(135deg, #be123c 0%, #f43f5e 100%)",
+                                boxShadow: "0 8px 32px rgba(244,63,94,0.35), 0 0 0 1px rgba(244,63,94,0.2)",
+                            }}
+                        >
+                            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-200" />
+                            <XCircle className="w-9 h-9 relative z-10 stroke-[1.5]" />
+                            <span className="tracking-widest relative z-10">KARANGAN</span>
+                        </motion.button>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="glass-strong rounded-2xl p-6 text-center"
+                        style={{
+                            boxShadow: "0 16px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06)",
+                        }}
+                    >
+                        <div className="flex justify-center mb-3">
+                            {currentAnswer
+                                ? <CheckCircle2 className="w-10 h-10 text-emerald-400 stroke-[1.5]" />
+                                : <XCircle className="w-10 h-10 text-rose-400 stroke-[1.5]" />
+                            }
+                        </div>
+                        <div className="text-sm font-semibold text-white/70 mb-1">
+                            Kamu menjawab: <span className="text-white font-bold">{currentAnswer ? "FAKTA" : "KARANGAN"}</span>
+                        </div>
                         <motion.div
                             animate={{ opacity: [0.5, 1, 0.5] }}
-                            transition={{ repeat: Infinity, duration: 1.5 }}
-                            className="text-xl font-bold text-slate-700 font-sans flex items-center justify-center gap-3"
+                            transition={{ repeat: Infinity, duration: 1.8 }}
+                            className="flex items-center justify-center gap-2 mt-3 text-slate-400 text-sm"
                         >
-                            Menunggu ayang jawab... <Hourglass className="w-6 h-6 animate-pulse" />
+                            <Hourglass className="w-4 h-4" />
+                            <span>Menunggu ayang jawab...</span>
                         </motion.div>
                     </motion.div>
                 )}

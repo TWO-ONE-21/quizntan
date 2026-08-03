@@ -18,6 +18,14 @@ export interface QuestionType {
     pernyataan: string;
     is_fakta: boolean;
     penjelasan: string;
+    sumber?: string;
+    kategori?: string;
+}
+
+export interface CategorySelection {
+    main: string;
+    sub: string;
+    selectedBy: "ardo" | "cintan";
 }
 
 export interface GameState {
@@ -26,13 +34,21 @@ export interface GameState {
         cintan: PlayerState;
     };
     currentQuestion: QuestionType | null;
-    status: "home" | "lobby" | "playing" | "reveal";
-    resetVotes?: { ardo?: boolean, cintan?: boolean };
+    status: "home" | "lobby" | "category_select" | "playing" | "reveal";
+    resetVotes?: { ardo?: boolean; cintan?: boolean };
+    selectedCategory?: CategorySelection | null;
+    questionQueue?: QuestionType[];
+    askedQuestions?: string[];
+    isFetchingBackground?: boolean;
 }
 
 const DEFAULT_STATE: GameState = {
     status: "home",
     currentQuestion: null,
+    selectedCategory: null,
+    questionQueue: [],
+    askedQuestions: [],
+    isFetchingBackground: false,
     players: {
         ardo: { isOnline: false, score: 0, answer: null, displayName: "Ardo", avatarUrl: "" },
         cintan: { isOnline: false, score: 0, answer: null, displayName: "Cintan", avatarUrl: "" },
@@ -45,7 +61,6 @@ export function useGameState() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check local storage for identity
         const savedPlayer = localStorage.getItem("game_player_id") as PlayerType;
         if (savedPlayer) {
             setCurrentPlayer(savedPlayer);
@@ -61,10 +76,14 @@ export function useGameState() {
                     status: data.status || "home",
                     currentQuestion: data.currentQuestion || null,
                     resetVotes: data.resetVotes || { ardo: false, cintan: false },
+                    selectedCategory: data.selectedCategory || null,
+                    questionQueue: data.questionQueue || [],
+                    askedQuestions: data.askedQuestions || [],
+                    isFetchingBackground: data.isFetchingBackground || false,
                     players: {
                         ardo: { ...DEFAULT_STATE.players.ardo, ...data.players?.ardo },
-                        cintan: { ...DEFAULT_STATE.players.cintan, ...data.players?.cintan }
-                    }
+                        cintan: { ...DEFAULT_STATE.players.cintan, ...data.players?.cintan },
+                    },
                 });
             }
             setLoading(false);
@@ -76,7 +95,6 @@ export function useGameState() {
     const loginPlayer = async (player: "ardo" | "cintan") => {
         localStorage.setItem("game_player_id", player);
         setCurrentPlayer(player);
-        // update firebase
         await update(ref(database, `game/state/players/${player}`), {
             isOnline: true,
         });
@@ -99,9 +117,23 @@ export function useGameState() {
         });
     };
 
+    const setCategory = async (
+        player: "ardo" | "cintan",
+        main: string,
+        sub: string
+    ) => {
+        await update(ref(database, "game/state"), {
+            selectedCategory: { main, sub, selectedBy: player },
+        });
+    };
+
+    const confirmCategoryAndPlay = async () => {
+        await update(ref(database, "game/state"), { status: "playing" });
+    };
+
     const voteResetScore = async (player: "ardo" | "cintan", cancel: boolean = false) => {
         await update(ref(database, `game/state/resetVotes`), {
-            [player]: !cancel
+            [player]: !cancel,
         });
     };
 
@@ -122,6 +154,8 @@ export function useGameState() {
         updateGameStatus,
         submitAnswer,
         updateProfile,
+        setCategory,
+        confirmCategoryAndPlay,
         voteResetScore,
         loading,
     };
