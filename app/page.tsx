@@ -416,7 +416,7 @@ export default function Home() {
               if (currentPlayer) setCategory(currentPlayer, main, sub);
             }}
             onConfirm={handleStartWithCategory}
-            isConfirming={isGenerating || gameState.isFetchingBackground}
+            isConfirming={isGenerating || !!gameState.isFetchingBackground}
           />
         )}
 
